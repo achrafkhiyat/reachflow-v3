@@ -1,0 +1,183 @@
+"use client";
+
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function Hero() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlay = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
+  return (
+    <section
+      className="relative flex flex-col items-center overflow-hidden"
+      style={{ backgroundColor: "#0C0A09", paddingLeft: "32px", paddingRight: "32px", paddingTop: "80px", paddingBottom: "24px" }}
+    >
+      {/* ── Grid Texture Overlay ── */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #80808012 1px, transparent 1px), linear-gradient(to bottom, #80808012 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+
+      {/* ── Logo ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10"
+        style={{ marginBottom: "40px" }}
+      >
+        <img
+          src="/logo.png"
+          alt="Reachflow"
+          className="h-14 md:h-20 w-auto"
+        />
+      </motion.div>
+
+      {/* ── Headline ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
+        className="relative z-10 max-w-5xl mx-auto text-center"
+        style={{ marginBottom: "24px" }}
+      >
+        <h1 className="text-[1.6rem] md:text-4xl lg:text-5xl font-bold text-white leading-[1.15]">
+          Arrêtez les &lsquo;<span className="text-orange-500">sans budget</span>&rsquo;.
+          <br />
+          Attirez des étudiants{" "}
+          <span className="text-orange-500">sérieux</span> et{" "}
+          <span className="text-orange-500">prêts à investir</span>.
+        </h1>
+      </motion.div>
+
+      {/* ── Sub-headline ── */}
+      <motion.p
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="relative z-10 text-xs md:text-lg text-gray-400 text-center font-bold leading-relaxed max-w-xl mx-auto"
+        style={{ marginBottom: "32px" }}
+      >
+        Nous installons un Moteur de Filtration pour les Bureaux
+        d&apos;Orientation au Maroc qui disqualifie les curieux. Prenez 3
+        minutes pour regarder cette vidéo : c&apos;est l&apos;investissement le
+        plus stratégique que vous ferez cette année.
+      </motion.p>
+
+      {/* ── Video Container ── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="relative z-10 w-full max-w-4xl mx-auto"
+      >
+        {/* "REGARDER LA DÉMO" handwritten arrow */}
+        <div className="absolute -top-12 -right-4 md:-right-10 hidden md:flex flex-col items-end gap-0.5 -rotate-6">
+          <span
+            className="text-stone-500 text-sm italic"
+            style={{ fontFamily: "Georgia, serif" }}
+          >
+            REGARDER LA DÉMO
+          </span>
+          <svg
+            className="w-7 h-9 text-stone-600"
+            viewBox="0 0 32 40"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          >
+            <path d="M20 4c-2 6-6 14-8 22" />
+            <path d="M10 22l2 5-5-1" />
+          </svg>
+        </div>
+
+        {/* Video frame */}
+        <div
+          className="relative w-full aspect-video rounded-2xl overflow-hidden border-[3px] border-orange-500 bg-black"
+          style={{ boxShadow: "0 0 80px -20px rgba(249,115,22,0.5), 0 0 30px -10px rgba(249,115,22,0.3)" }}
+        >
+          <AnimatePresence mode="wait">
+            {isPlaying ? (
+              <motion.div
+                key="video"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <iframe
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1&controls=1"
+                  className="w-full h-full"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                  title="VSL"
+                />
+              </motion.div>
+            ) : (
+              <motion.button
+                key="thumbnail"
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={handlePlay}
+                className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer bg-black group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-black/20" />
+                <div className="relative z-10">
+                  <div className="absolute inset-0 -m-3 rounded-full bg-orange-500/15 animate-ping" />
+                  <div className="w-14 h-14 md:w-[72px] md:h-[72px] rounded-full border border-white/20 bg-white/[0.06] backdrop-blur-md flex items-center justify-center group-hover:bg-white/[0.12] group-hover:border-white/30 group-hover:scale-110 transition-all duration-300 ease-out">
+                    <svg
+                      className="w-5 h-5 md:w-7 md:h-7 text-white/90 ml-0.5"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      {/* ── CTA Button ── */}
+      <motion.a
+        href="#candidature"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.85 }}
+        style={{
+          marginTop: "36px",
+          marginBottom: "0px",
+          padding: "20px 40px",
+          backgroundColor: "#F97316",
+          borderRadius: "16px",
+          boxShadow: "0 8px 40px -8px rgba(249,115,22,0.6)",
+        }}
+        className="relative z-10 inline-flex items-center justify-center gap-3 text-white text-base md:text-2xl font-bold transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+      >
+        Réservez votre appel
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
+        >
+          <path d="M5 12h14" />
+          <path d="M12 5l7 7-7 7" />
+        </svg>
+      </motion.a>
+    </section>
+  );
+}
