@@ -97,26 +97,27 @@ export default function QualifierForm() {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Send data to Google Sheets in the background — don't block the redirect
-    fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nomComplet: formData.name,
-        nomBureau: formData.bureau,
-        telephone: formData.phone,
-        inscriptions: selections[0] || "",
-        objectif: selections[1] || "",
-        budget: selections[2] || "",
-        situation: selections[3] || "",
-        decisionnaire: selections[4] || "",
-        pretAInvestir: selections[5] || "",
-      }),
-    }).catch((err) => console.error("Submit error:", err));
+    const payload = {
+      nomComplet: formData.name,
+      nomBureau: formData.bureau,
+      telephone: formData.phone,
+      inscriptions: selections[0] || "",
+      objectif: selections[1] || "",
+      budget: selections[2] || "",
+      situation: selections[3] || "",
+      decisionnaire: selections[4] || "",
+      pretAInvestir: selections[5] || "",
+    };
+
+    // Send to Google Sheets in background — don't block redirect
+    navigator.sendBeacon(
+      "https://script.google.com/macros/s/AKfycbwlxx3I_mRDAsb2KetIdPXHlnUWtRwUVK5Qw1L28QOrGoaCgEgCPBAHihMsdfOU8F-IrQ/exec",
+      JSON.stringify(payload)
+    );
 
     router.push("/booking");
   };
