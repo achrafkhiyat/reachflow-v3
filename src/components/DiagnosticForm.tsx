@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const destinations = [
@@ -30,15 +31,14 @@ export default function DiagnosticForm() {
     whatsapp: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
-    setSubmitted(true);
+    router.push("/booking");
   };
 
   return (
@@ -70,26 +70,7 @@ export default function DiagnosticForm() {
             </h3>
           </div>
 
-          {submitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-12"
-            >
-              <div className="w-16 h-16 rounded-full bg-emerald/10 border border-emerald/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-text-primary mb-2">
-                Candidature Reçue
-              </h3>
-              <p className="text-text-secondary text-sm">
-                Notre équipe vous contactera sur WhatsApp dans les 24h.
-              </p>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="relative space-y-5">
+          <form onSubmit={handleSubmit} className="relative space-y-5">
               {/* Name */}
               <div>
                 <label className="block text-xs text-text-muted uppercase tracking-wider mb-2 font-medium">
@@ -263,7 +244,6 @@ export default function DiagnosticForm() {
                 )}
               </button>
             </form>
-          )}
         </motion.div>
       </div>
     </section>

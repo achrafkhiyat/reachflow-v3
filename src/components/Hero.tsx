@@ -3,6 +3,47 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+/* ── Shimmer keyword component ── */
+function ShimmerWord({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  return (
+    <span className="relative inline-block">
+      <motion.span
+        className="shimmer-text"
+        initial={{ backgroundPosition: "200% center" }}
+        animate={{ backgroundPosition: "-200% center" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear", delay }}
+      >
+        {children}
+      </motion.span>
+      <motion.span
+        className="absolute left-0 bottom-0 h-[2px] rounded-full"
+        style={{
+          background:
+            "linear-gradient(90deg, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316)",
+          backgroundSize: "200% 100%",
+        }}
+        initial={{ width: "0%" }}
+        animate={{ width: "100%", backgroundPosition: ["-100%", "100%"] }}
+        transition={{
+          width: { duration: 0.8, delay: delay + 0.5, ease: "easeOut" },
+          backgroundPosition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "linear",
+            delay,
+          },
+        }}
+      />
+    </span>
+  );
+}
+
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -49,11 +90,11 @@ export default function Hero() {
         style={{ marginBottom: "24px" }}
       >
         <h1 className="text-[1.6rem] md:text-4xl lg:text-5xl font-bold text-white leading-[1.15]">
-          Arrêtez les &lsquo;<span className="text-orange-500">sans budget</span>&rsquo;.
+          Arrêtez les &lsquo;<ShimmerWord delay={0}>sans budget</ShimmerWord>&rsquo;.
           <br />
           Attirez des étudiants{" "}
-          <span className="text-orange-500">sérieux</span> et{" "}
-          <span className="text-orange-500">prêts à investir</span>.
+          <ShimmerWord delay={0.3}>sérieux</ShimmerWord> et{" "}
+          <ShimmerWord delay={0.6}>prêts à investir</ShimmerWord>.
         </h1>
       </motion.div>
 
@@ -99,11 +140,20 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Video frame */}
+        {/* Video frame with animated gradient border */}
         <div
-          className="relative w-full aspect-video rounded-2xl overflow-hidden border-[3px] border-orange-500 bg-black"
-          style={{ boxShadow: "0 0 80px -20px rgba(249,115,22,0.5), 0 0 30px -10px rgba(249,115,22,0.3)" }}
+          className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black"
+          style={{
+            padding: "3px",
+            background:
+              "linear-gradient(90deg, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316)",
+            backgroundSize: "300% 100%",
+            animation: "shimmer-border 6s linear infinite",
+            boxShadow:
+              "0 0 80px -20px rgba(249,115,22,0.5), 0 0 30px -10px rgba(249,115,22,0.3)",
+          }}
         >
+        <div className="relative w-full h-full rounded-[13px] overflow-hidden bg-black">
           <AnimatePresence mode="wait">
             {isPlaying ? (
               <motion.div
@@ -145,6 +195,7 @@ export default function Hero() {
               </motion.button>
             )}
           </AnimatePresence>
+        </div>
         </div>
       </motion.div>
 

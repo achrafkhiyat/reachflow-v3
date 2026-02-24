@@ -1,96 +1,140 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-const steps = [
+const choiceSteps = [
   {
-    headline: "Combien d'étudiants accompagnez-vous par an ?",
+    headline: "Quel est votre volume moyen d'inscriptions mensuelles ?",
     options: [
-      "Moins de 50 étudiants",
-      "Entre 50 et 150 étudiants",
-      "Plus de 150 étudiants",
+      "Moins de 5",
+      "Entre 5 et 15",
+      "Entre 15 et 25",
+      "Plus de 25",
     ],
   },
   {
-    headline: "Quel est votre plus gros obstacle actuel ?",
+    headline: "Combien de prospects qualifiés souhaitez-vous générer chaque mois ?",
     options: [
-      "Le volume (Pas assez de leads)",
-      "La qualité (Étudiants sans budget)",
-      "Le closing (Difficulté à convertir)",
+      "Entre 20 et 40 prospects",
+      "Entre 30 et 50 prospects",
+      "Entre 50 et 100 prospects",
+      "Plus de 100 prospects",
+    ],
+  },
+  {
+    headline: "Quel budget mensuel pouvez-vous allouer pour garantir ces résultats (Publicités + Frais de l'agence) ?",
+    options: [
+      "Moins de 7 000 MAD",
+      "Entre 7 000 et 15 000 MAD",
+      "Entre 15 000 et 30 000 MAD",
+      "Plus de 30 000 MAD",
+    ],
+  },
+  {
+    headline: "Où en est votre Bureau aujourd'hui ?",
+    options: [
+      "Bureau déjà bien établi (flux régulier d'étudiants)",
+      "Bureau actif mais avec un flux irrégulier",
+      "En phase de lancement / Pas encore de clients réguliers",
+    ],
+  },
+  {
+    headline: "Êtes-vous le seul décisionnaire pour ce type d'investissement ?",
+    options: [
+      "Oui, je prends la décision seul(e)",
+      "Non, je dois en discuter avec un(e) associé(e)",
+    ],
+  },
+  {
+    headline: "Êtes-vous prêt à avancer et à investir dans votre croissance si notre système correspond à ce que vous cherchez ?",
+    options: [
+      "Oui — si c'est cohérent, je suis prêt à avancer maintenant.",
+      "Non — je m'informe juste et ne souhaite pas investir pour le moment.",
     ],
   },
 ];
+
+const inputSteps = [
+  { key: "name" as const, headline: "Quel est votre nom complet ?", label: "Nom Complet", type: "text", placeholder: "Votre nom complet" },
+  { key: "bureau" as const, headline: "Quel est le nom de votre bureau ?", label: "Nom du Bureau d'Orientation", type: "text", placeholder: "Nom de votre bureau" },
+  { key: "phone" as const, headline: "Votre numéro de téléphone ?", label: "Numéro de Téléphone", type: "tel", placeholder: "06 XX XX XX XX" },
+];
+
+const totalSteps = choiceSteps.length + inputSteps.length;
 
 export default function QualifierForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [selections, setSelections] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
+  const [formData, setFormData] = useState({ name: "", bureau: "", phone: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
-  const totalSteps = 3;
   const progress = ((currentStep + 1) / totalSteps) * 100;
+  const isChoiceStep = currentStep < choiceSteps.length;
+  const inputIndex = currentStep - choiceSteps.length;
+  const isLastStep = currentStep === totalSteps - 1;
 
   const handleNext = () => {
-    if (!selected) return;
-    setSelections([...selections, selected]);
-    setSelected(null);
+    if (isChoiceStep) {
+      if (!selected) return;
+      setSelections([...selections, selected]);
+      setSelected(null);
+    }
     setCurrentStep(currentStep + 1);
   };
 
   const handleBack = () => {
     if (currentStep === 0) return;
-    const prev = [...selections];
-    const lastSelection = prev.pop();
-    setSelections(prev);
-    setSelected(lastSelection || null);
+    if (currentStep === choiceSteps.length) {
+      const prev = [...selections];
+      const lastSelection = prev.pop();
+      setSelections(prev);
+      setSelected(lastSelection || null);
+    }
     setCurrentStep(currentStep - 1);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nomComplet: formData.name,
+          nomBureau: formData.bureau,
+          telephone: formData.phone,
+          inscriptions: selections[0] || "",
+          objectif: selections[1] || "",
+          budget: selections[2] || "",
+          situation: selections[3] || "",
+          decisionnaire: selections[4] || "",
+          pretAInvestir: selections[5] || "",
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        router.push("/booking");
+        return;
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
+
     setIsSubmitting(false);
-    setSubmitted(true);
   };
 
-  if (submitted) {
-    return (
-      <section id="candidature" className="relative" style={{ paddingLeft: "32px", paddingRight: "32px", paddingTop: "55px", paddingBottom: "55px" }}>
-        <div style={{ maxWidth: "672px", marginLeft: "auto", marginRight: "auto" }}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="rounded-3xl p-8 md:p-12 text-center"
-            style={{
-              background: "linear-gradient(to bottom, #1F1D1B, #0C0A09)",
-              borderTop: "1px solid rgba(255,255,255,0.1)",
-              borderLeft: "1px solid rgba(255,255,255,0.05)",
-              borderRight: "1px solid rgba(255,255,255,0.05)",
-              borderBottom: "1px solid rgba(255,255,255,0.02)",
-              boxShadow: "0 20px 50px -12px rgba(0,0,0,1), 0 0 40px -10px rgba(249,115,22,0.1)",
-            }}
-          >
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-              style={{ backgroundColor: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.2)" }}
-            >
-              <svg className="w-8 h-8" style={{ color: "#10b981" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">Candidature Envoyée</h3>
-            <p className="text-stone-400 text-sm">
-              Notre équipe analyse votre profil. Vous serez contacté dans les 24h.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-    );
-  }
+  const canProceed = () => {
+    if (isChoiceStep) return !!selected;
+    const step = inputSteps[inputIndex];
+    return formData[step.key].trim().length > 0;
+  };
 
   return (
     <section id="candidature" className="relative" style={{ paddingLeft: "32px", paddingRight: "32px", paddingTop: "55px", paddingBottom: "55px" }}>
@@ -134,9 +178,8 @@ export default function QualifierForm() {
 
           {/* Card content */}
           <div style={{ padding: "32px 20px" }}>
-
             <AnimatePresence mode="wait">
-              {currentStep < 2 ? (
+              {isChoiceStep ? (
                 <motion.div
                   key={`step-${currentStep}`}
                   initial={{ opacity: 0, x: 30 }}
@@ -144,19 +187,16 @@ export default function QualifierForm() {
                   exit={{ opacity: 0, x: -30 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {/* Step indicator */}
                   <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
                     Étape {currentStep + 1} sur {totalSteps}
                   </p>
 
-                  {/* Question */}
                   <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
-                    {steps[currentStep].headline}
+                    {choiceSteps[currentStep].headline}
                   </h3>
 
-                  {/* Options - solid filled blocks */}
                   <div className="flex flex-col gap-3">
-                    {steps[currentStep].options.map((option) => {
+                    {choiceSteps[currentStep].options.map((option) => {
                       const isSelected = selected === option;
                       return (
                         <button
@@ -197,7 +237,6 @@ export default function QualifierForm() {
                     })}
                   </div>
 
-                  {/* Buttons */}
                   <div className="flex gap-3" style={{ marginTop: "24px" }}>
                     {currentStep > 0 && (
                       <button
@@ -230,121 +269,90 @@ export default function QualifierForm() {
                 </motion.div>
               ) : (
                 <motion.form
-                  key="step-final"
+                  key={`step-${currentStep}`}
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -30 }}
                   transition={{ duration: 0.3 }}
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (isLastStep) {
+                      handleSubmit(e);
+                    } else {
+                      handleNext();
+                    }
+                  }}
                 >
-                  {/* Step indicator */}
                   <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
-                    Étape {totalSteps} sur {totalSteps}
+                    Étape {currentStep + 1} sur {totalSteps}
                   </p>
 
-                  {/* Question */}
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-6">
-                    Dernière étape...
+                  <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
+                    {inputSteps[inputIndex].headline}
                   </h3>
 
-                  <div className="flex flex-col" style={{ gap: "16px" }}>
-                    <div>
-                      <label className="block text-xs text-stone-400 uppercase tracking-wider font-medium" style={{ marginBottom: "8px" }}>
-                        Nom Complet
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Votre nom complet"
-                        className="w-full rounded-xl text-sm text-white placeholder:text-stone-600 focus:outline-none transition-all"
-                        style={{
-                          padding: "14px 16px",
-                          backgroundColor: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                        }}
-                        onFocus={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.5)")}
-                        onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs text-stone-400 uppercase tracking-wider font-medium" style={{ marginBottom: "8px" }}>
-                        Numéro WhatsApp
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+212 6XX XXX XXX"
-                        className="w-full rounded-xl text-sm text-white placeholder:text-stone-600 focus:outline-none transition-all"
-                        style={{
-                          padding: "14px 16px",
-                          backgroundColor: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                        }}
-                        onFocus={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.5)")}
-                        onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs text-stone-400 uppercase tracking-wider font-medium" style={{ marginBottom: "8px" }}>
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="votre@email.com"
-                        className="w-full rounded-xl text-sm text-white placeholder:text-stone-600 focus:outline-none transition-all"
-                        style={{
-                          padding: "14px 16px",
-                          backgroundColor: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                        }}
-                        onFocus={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.5)")}
-                        onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs text-stone-400 uppercase tracking-wider font-medium" style={{ marginBottom: "8px" }}>
+                      {inputSteps[inputIndex].label}
+                    </label>
+                    <input
+                      type={inputSteps[inputIndex].type}
+                      required
+                      autoFocus
+                      value={formData[inputSteps[inputIndex].key]}
+                      onChange={(e) =>
+                        setFormData({ ...formData, [inputSteps[inputIndex].key]: e.target.value })
+                      }
+                      placeholder={inputSteps[inputIndex].placeholder}
+                      className="w-full rounded-xl text-sm text-white placeholder:text-stone-600 focus:outline-none transition-all"
+                      style={{
+                        padding: "14px 16px",
+                        backgroundColor: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.5)")}
+                      onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+                    />
                   </div>
 
-                  <div className="flex flex-col" style={{ marginTop: "28px", gap: "10px" }}>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full rounded-xl text-white font-bold text-sm uppercase tracking-wide transition-all duration-200 cursor-pointer disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98]"
-                      style={{
-                        padding: "16px 24px",
-                        backgroundColor: "#F97316",
-                        boxShadow: "0 8px 30px -8px rgba(249,115,22,0.5)",
-                      }}
-                    >
-                    {isSubmitting ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                        Envoi en cours...
-                      </span>
-                    ) : (
-                      "Valider ma Candidature"
-                    )}
-                    </button>
+                  <div className="flex gap-3" style={{ marginTop: "28px" }}>
                     <button
                       type="button"
                       onClick={handleBack}
-                      className="w-full rounded-xl text-stone-400 font-semibold text-xs uppercase tracking-wide transition-all duration-200 cursor-pointer hover:text-stone-300"
+                      className="flex-1 rounded-xl text-stone-300 font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                       style={{
-                        padding: "12px 20px",
-                        backgroundColor: "transparent",
+                        padding: "14px 20px",
+                        backgroundColor: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.1)",
                       }}
                     >
                       &larr; Précédent
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={!canProceed() || (isLastStep && isSubmitting)}
+                      className="flex-1 rounded-xl text-white font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all duration-200 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        padding: "14px 20px",
+                        backgroundColor: canProceed() ? "#F97316" : "rgba(249,115,22,0.3)",
+                        boxShadow: canProceed() ? "0 8px 30px -8px rgba(249,115,22,0.5)" : "none",
+                      }}
+                    >
+                      {isLastStep ? (
+                        isSubmitting ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                            Envoi...
+                          </span>
+                        ) : (
+                          "Réserver mon appel"
+                        )
+                      ) : (
+                        "Suivant \u2192"
+                      )}
                     </button>
                   </div>
                 </motion.form>

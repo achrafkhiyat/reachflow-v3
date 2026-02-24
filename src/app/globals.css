@@ -53,6 +53,11 @@ body {
   background: #44403c;
 }
 
+/* Hide scrollbar inside Calendly widget */
+.calendly-inline-widget {
+  overflow: hidden !important;
+}
+
 /* Lights out overlay */
 .lights-out {
   position: fixed;
@@ -60,6 +65,28 @@ body {
   background: rgba(0, 0, 0, 0.92);
   z-index: 40;
   backdrop-filter: blur(4px);
+}
+
+/* Shimmer border animation */
+@keyframes shimmer-border {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+/* Shimmer text — warm orange → soft amber → orange */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #f97316 0%,
+    #fbad5e 25%,
+    #f9c97c 50%,
+    #fbad5e 75%,
+    #f97316 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Gradient text */

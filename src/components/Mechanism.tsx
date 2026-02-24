@@ -2,6 +2,47 @@
 
 import { motion } from "framer-motion";
 
+/* ── Shimmer keyword component ── */
+function ShimmerWord({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  return (
+    <span className="relative inline-block">
+      <motion.span
+        className="shimmer-text"
+        initial={{ backgroundPosition: "200% center" }}
+        animate={{ backgroundPosition: "-200% center" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear", delay }}
+      >
+        {children}
+      </motion.span>
+      <motion.span
+        className="absolute left-0 bottom-0 h-[2px] rounded-full"
+        style={{
+          background:
+            "linear-gradient(90deg, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316)",
+          backgroundSize: "200% 100%",
+        }}
+        initial={{ width: "0%" }}
+        animate={{ width: "100%", backgroundPosition: ["-100%", "100%"] }}
+        transition={{
+          width: { duration: 0.8, delay: delay + 0.5, ease: "easeOut" },
+          backgroundPosition: {
+            duration: 6,
+            repeat: Infinity,
+            ease: "linear",
+            delay,
+          },
+        }}
+      />
+    </span>
+  );
+}
+
 const pillars = [
   {
     icon: (
@@ -43,7 +84,7 @@ const pillars = [
     label: "Le Filtre",
     tag: "Web",
     description:
-      "Une Page de Filtration qui rejette les leads non qualifiés avant WhatsApp.",
+      "Une Page de Filtration qui rejette les leads non qualifiés.",
   },
   {
     icon: (
@@ -70,7 +111,7 @@ const pillars = [
     label: "Le Ciblage",
     tag: "Média",
     description:
-      "Acquisition de Parents avec liquidité (pas d'étudiants fauchés).",
+      "Acquisition de parents disposant de liquidités et d'étudiants sérieux (pas d'étudiants fauchés).",
   },
 ];
 
@@ -97,7 +138,7 @@ export default function Mechanism() {
         >
           Le Moteur de Filtration{" "}
           <br />
-          en <span style={{ color: "#F97316" }}>3 Piliers</span>
+          en <ShimmerWord>3 Piliers</ShimmerWord>
         </h2>
       </motion.div>
 
