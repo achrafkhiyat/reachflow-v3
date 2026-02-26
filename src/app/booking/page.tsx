@@ -9,10 +9,6 @@ export default function Booking() {
   const router = useRouter();
 
   useEffect(() => {
-    if (window.fbq) {
-      window.fbq("track", "Lead");
-    }
-
     const handleMessage = (e: MessageEvent) => {
       if (e.data?.event === "calendly.event_scheduled") {
         router.push("/thank-you");
