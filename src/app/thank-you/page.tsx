@@ -112,7 +112,7 @@ export default function ThankYou() {
           transition={{ duration: 0.5, delay: 0.65 }}
         >
           <Link
-            href="/"
+            href="https://reachflow.ma"
             style={{
               padding: "3px",
               borderRadius: "16px",
@@ -132,7 +132,7 @@ export default function ThankYou() {
                 backgroundColor: "#F97316",
               }}
             >
-              Retour à l&apos;accueil
+              Découvrir Reachflow
               <svg
                 className="w-4 h-4"
                 fill="none"
