@@ -22,7 +22,7 @@ function ShimmerWord({
         {children}
       </motion.span>
       <motion.span
-        className="absolute left-0 bottom-0 h-[2px] rounded-full"
+        className="absolute right-0 bottom-0 h-[2px] rounded-full"
         style={{
           background:
             "linear-gradient(90deg, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316)",
@@ -44,7 +44,7 @@ function ShimmerWord({
   );
 }
 
-export default function Hero() {
+export default function HeroAr() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handlePlay = useCallback(() => {
@@ -90,14 +90,14 @@ export default function Hero() {
         style={{ marginBottom: "24px" }}
       >
         <h1 className="text-[1.6rem] md:text-4xl lg:text-5xl font-bold text-white leading-[1.15]">
-          Ne perdez plus de temps avec les{" "}
-          <ShimmerWord delay={0}>curieux</ShimmerWord>.
+          توقف عن إضاعة الوقت مع{" "}
+          <ShimmerWord delay={0}>غير الجادين</ShimmerWord>.
           <br />
-          Sécurisez{" "}
-          <ShimmerWord delay={0.3}>+100 000 MAD</ShimmerWord> par mois en
-          attirant exclusivement des parents{" "}
-          <ShimmerWord delay={0.6}>prêts à financer</ShimmerWord> les études
-          à l&apos;étranger.
+          اضمن{" "}
+          <ShimmerWord delay={0.3}>100,000 درهم</ShimmerWord> شهرياً
+          بجذب الآباء{" "}
+          <ShimmerWord delay={0.6}>المستعدين مادياً</ShimmerWord> لتدريس
+          أبنائهم في الخارج.
         </h1>
       </motion.div>
 
@@ -109,10 +109,8 @@ export default function Hero() {
         className="relative z-10 text-xs md:text-lg text-gray-400 text-center font-bold leading-relaxed max-w-xl mx-auto"
         style={{ marginBottom: "32px" }}
       >
-        Nous installons un Moteur de Filtration pour les Bureaux
-        d&apos;Orientation au Maroc qui disqualifie les curieux. Prenez 3
-        minutes pour regarder cette vidéo : c&apos;est l&apos;investissement le
-        plus stratégique que vous ferez cette année.
+        نُركّب محرّك فلترة لمكاتب التوجيه في المغرب يُقصي الفضوليين تلقائيًا.
+        خصّص 3 دقائق لمشاهدة هذا الفيديو: إنّه أذكى استثمار ستقوم به هذه السنة.
       </motion.p>
 
       {/* ── Video Container ── */}
@@ -122,13 +120,13 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="relative z-10 w-full max-w-4xl mx-auto"
       >
-        {/* "REGARDER LA DÉMO" handwritten arrow */}
-        <div className="absolute -top-12 -right-4 md:-right-10 hidden md:flex flex-col items-end gap-0.5 -rotate-6">
+        {/* "شاهد العرض" handwritten arrow */}
+        <div className="absolute -top-12 -left-4 md:-left-10 hidden md:flex flex-col items-start gap-0.5 rotate-6">
           <span
             className="text-stone-500 text-sm italic"
             style={{ fontFamily: "Georgia, serif" }}
           >
-            REGARDER LA DÉMO
+            شاهد العرض
           </span>
           <svg
             className="w-7 h-9 text-stone-600"
@@ -137,6 +135,7 @@ export default function Hero() {
             stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"
+            style={{ transform: "scaleX(-1)" }}
           >
             <path d="M20 4c-2 6-6 14-8 22" />
             <path d="M10 22l2 5-5-1" />
@@ -218,7 +217,7 @@ export default function Hero() {
         }}
         className="relative z-10 inline-flex items-center justify-center gap-3 text-white text-base md:text-2xl font-bold transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
       >
-        Réservez votre appel
+        احجز مكالمتك الآن
         <svg
           className="w-5 h-5"
           fill="none"
@@ -227,6 +226,7 @@ export default function Hero() {
           strokeLinecap="round"
           strokeLinejoin="round"
           viewBox="0 0 24 24"
+          style={{ transform: "scaleX(-1)" }}
         >
           <path d="M5 12h14" />
           <path d="M12 5l7 7-7 7" />
