@@ -167,7 +167,7 @@ export default function Hero() {
                 className="absolute inset-0 w-full h-full"
               >
                 <iframe
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1&controls=1"
+                  src="https://www.youtube.com/embed/6NA6qCT4DDo?autoplay=1&rel=0&modestbranding=1&controls=1"
                   className="w-full h-full"
                   allow="autoplay; encrypted-media; fullscreen"
                   allowFullScreen
