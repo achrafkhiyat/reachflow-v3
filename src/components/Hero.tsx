@@ -175,27 +175,37 @@ export default function Hero() {
                 />
               </motion.div>
             ) : (
-              <motion.button
+              <motion.div
                 key="thumbnail"
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                onClick={handlePlay}
-                className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer bg-black group"
+                className="absolute inset-0 w-full h-full"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-black/20" />
-                <div className="relative z-10">
-                  <div className="absolute inset-0 -m-3 rounded-full bg-orange-500/15 animate-ping" />
-                  <div className="w-14 h-14 md:w-[72px] md:h-[72px] rounded-full border border-white/20 bg-white/[0.06] backdrop-blur-md flex items-center justify-center group-hover:bg-white/[0.12] group-hover:border-white/30 group-hover:scale-110 transition-all duration-300 ease-out">
-                    <svg
-                      className="w-5 h-5 md:w-7 md:h-7 text-white/90 ml-0.5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
+                <img
+                  src="/thumbnail.jpg"
+                  alt="VSL thumbnail"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Clickable overlay */}
+                <button
+                  onClick={handlePlay}
+                  className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer group bg-transparent"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
+                  <div className="relative z-10">
+                    <div className="absolute inset-0 -m-3 rounded-full bg-orange-500/15 animate-ping" />
+                    <div className="w-14 h-14 md:w-[72px] md:h-[72px] rounded-full border border-white/20 bg-white/[0.06] backdrop-blur-md flex items-center justify-center group-hover:bg-white/[0.12] group-hover:border-white/30 group-hover:scale-110 transition-all duration-300 ease-out">
+                      <svg
+                        className="w-5 h-5 md:w-7 md:h-7 text-white/90 ml-0.5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-              </motion.button>
+                </button>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
