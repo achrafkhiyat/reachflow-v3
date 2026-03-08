@@ -95,8 +95,8 @@ export default function Partners() {
                   maxWidth: "100%",
                   maxHeight: "100%",
                   objectFit: "contain",
-                  filter: "brightness(0) invert(1)",
-                  opacity: 0.6,
+                  filter: "none",
+                  opacity: 0.85,
                 }}
               />
             </div>
