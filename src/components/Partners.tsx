@@ -3,15 +3,15 @@
 import { motion } from "framer-motion";
 
 const logos = [
-  { src: "/logos/Hikma%20education.png", alt: "Hikma Education" },
-  { src: "/logos/International%20Pathway%20Academy.png", alt: "International Pathway Academy" },
-  { src: "/logos/TAWJIH%20BA3D%20LBAC.png", alt: "Tawjih Ba3d Lbac" },
-  { src: "/logos/anajah%20academy.png", alt: "Anajah Academy" },
-  { src: "/logos/go%20international%20education.png", alt: "Go International Education" },
-  { src: "/logos/iSTANBUL%20FOUNDATION.png", alt: "Istanbul Foundation" },
-  { src: "/logos/studyadvisor%20residency.png", alt: "Studyadvisor Residency" },
-  { src: "/logos/studyadvisor.png", alt: "Studyadvisor" },
-  { src: "/logos/wonderlearn.png", alt: "Wonderlearn" },
+  { src: "/logos/Hikma%20education.png", alt: "Hikma Education", scale: 1 },
+  { src: "/logos/International%20Pathway%20Academy.png", alt: "International Pathway Academy", scale: 1.5 },
+  { src: "/logos/TAWJIH%20BA3D%20LBAC.png", alt: "Tawjih Ba3d Lbac", scale: 1 },
+  { src: "/logos/anajah%20academy.png", alt: "Anajah Academy", scale: 1 },
+  { src: "/logos/go%20international%20education.png", alt: "Go International Education", scale: 1 },
+  { src: "/logos/iSTANBUL%20FOUNDATION.png", alt: "Istanbul Foundation", scale: 1.5 },
+  { src: "/logos/studyadvisor%20residency.png", alt: "Studyadvisor Residency", scale: 1 },
+  { src: "/logos/studyadvisor.png", alt: "Studyadvisor", scale: 1 },
+  { src: "/logos/wonderlearn.png", alt: "Wonderlearn", scale: 2 },
 ];
 
 const doubled = [...logos, ...logos];
@@ -74,7 +74,7 @@ export default function Partners() {
             width: "max-content",
           }}
         >
-          {doubled.map((logo, i) => (
+          {doubled.map((logo: { src: string; alt: string; scale: number }, i) => (
             <div
               key={i}
               className="flex-shrink-0 flex items-center justify-center rounded-2xl"
@@ -96,6 +96,7 @@ export default function Partners() {
                   objectFit: "contain",
                   filter: "none",
                   opacity: 0.85,
+                  transform: `scale(${logo.scale})`,
                 }}
               />
             </div>
