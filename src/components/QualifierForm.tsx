@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const choiceSteps = [
   {
-    headline: "Quel est votre volume moyen d'inscriptions mensuelles ?",
+    headline: "Quel est votre volume moyen d'inscriptions mensuelles par destination ?",
     options: [
       "Moins de 5",
       "Entre 5 et 15",
@@ -15,7 +15,7 @@ const choiceSteps = [
     ],
   },
   {
-    headline: "Combien de prospects qualifiés souhaitez-vous générer chaque mois ?",
+    headline: "Combien de prospects qualifiés souhaitez-vous générer chaque mois par destination ?",
     options: [
       "Entre 20 et 40 prospects",
       "Entre 30 et 50 prospects",
@@ -24,34 +24,25 @@ const choiceSteps = [
     ],
   },
   {
-    headline: "Quel budget mensuel pouvez-vous allouer pour garantir ces résultats (Publicités + Frais de l'agence) ?",
+    headline: "Êtes-vous satisfait du nombre actuel d'inscriptions ?",
     options: [
-      "Moins de 7 000 MAD",
-      "Entre 7 000 et 15 000 MAD",
-      "Entre 15 000 et 30 000 MAD",
-      "Plus de 30 000 MAD",
+      "Oui, je suis satisfait",
+      "Non, je veux plus",
     ],
   },
   {
-    headline: "Où en est votre Bureau aujourd'hui ?",
+    headline: "Quel est votre objectif mensuel de nouveaux prospects par destination ?",
     options: [
-      "Bureau déjà bien établi (flux régulier d'étudiants)",
-      "Bureau actif mais avec un flux irrégulier",
-      "En phase de lancement / Pas encore de clients réguliers",
+      "Entre 20 et 50 prospects",
+      "Entre 50 et 100 prospects",
+      "Plus de 100 prospects",
     ],
   },
   {
-    headline: "Êtes-vous le seul décisionnaire pour ce type d'investissement ?",
+    headline: "Souhaitez-vous bénéficier d'une consultation gratuite ?",
     options: [
-      "Oui, je prends la décision seul(e)",
-      "Non, je dois en discuter avec un(e) associé(e)",
-    ],
-  },
-  {
-    headline: "Êtes-vous prêt à avancer et à investir dans votre croissance si notre système correspond à ce que vous cherchez ?",
-    options: [
-      "Oui — si c'est cohérent, je suis prêt à avancer maintenant.",
-      "Non — je m'informe juste et ne souhaite pas investir pour le moment.",
+      "Oui, je souhaite une consultation gratuite",
+      "Non, merci",
     ],
   },
 ];
@@ -64,12 +55,15 @@ const inputSteps = [
 
 const totalSteps = choiceSteps.length + inputSteps.length;
 
+const CONSULTATION_STEP = 4; // 0-indexed, step 5
+
 export default function QualifierForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [selections, setSelections] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", bureau: "", phone: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [declined, setDeclined] = useState(false);
   const router = useRouter();
 
   const progress = ((currentStep + 1) / totalSteps) * 100;
@@ -80,7 +74,13 @@ export default function QualifierForm() {
   const handleNext = () => {
     if (isChoiceStep) {
       if (!selected) return;
-      setSelections([...selections, selected]);
+      const newSelections = [...selections, selected];
+      setSelections(newSelections);
+      // Step 5 "Non" → show thank you
+      if (currentStep === CONSULTATION_STEP && selected === "Non, merci") {
+        setDeclined(true);
+        return;
+      }
       setSelected(null);
     }
     setCurrentStep(currentStep + 1);
@@ -107,13 +107,11 @@ export default function QualifierForm() {
       telephone: formData.phone,
       inscriptions: selections[0] || "",
       objectif: selections[1] || "",
-      budget: selections[2] || "",
-      situation: selections[3] || "",
-      decisionnaire: selections[4] || "",
-      pretAInvestir: selections[5] || "",
+      satisfaction: selections[2] || "",
+      cibleProspects: selections[3] || "",
+      consultation: selections[4] || "",
     };
 
-    // Send to Google Sheets in background — don't block redirect
     navigator.sendBeacon(
       "https://script.google.com/macros/s/AKfycbwlxx3I_mRDAsb2KetIdPXHlnUWtRwUVK5Qw1L28QOrGoaCgEgCPBAHihMsdfOU8F-IrQ/exec",
       JSON.stringify(payload)
@@ -137,10 +135,20 @@ export default function QualifierForm() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-xl md:text-3xl font-extrabold text-white"
-          style={{ textAlign: "center", marginBottom: "32px", whiteSpace: "nowrap" }}
+          className="text-2xl md:text-4xl font-extrabold text-center"
+          style={{
+            marginBottom: "32px",
+            background: "linear-gradient(90deg, #f97316, #fbad5e, #f97316)",
+            backgroundSize: "200% auto",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            animation: "shimmer-border 3s linear infinite",
+            textShadow: "none",
+            letterSpacing: "-0.01em",
+          }}
         >
-          Réserver mon appel diagnostic !
+          Réservez votre appel diagnostic !
         </motion.h2>
 
         <motion.div
@@ -170,6 +178,31 @@ export default function QualifierForm() {
 
           {/* Card content */}
           <div style={{ padding: "32px 20px" }}>
+            {/* Thank you screen — declined consultation */}
+            {declined ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col items-center text-center"
+                style={{ padding: "24px 0" }}
+              >
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)", marginBottom: "24px" }}
+                >
+                  <svg className="w-8 h-8" style={{ color: "#f97316" }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-white" style={{ marginBottom: "12px" }}>
+                  Merci pour votre temps !
+                </h3>
+                <p className="text-sm" style={{ color: "#a8a29e", lineHeight: 1.7 }}>
+                  Nous respectons votre décision. Si vous changez d'avis ou souhaitez en savoir plus sur nos solutions, n'hésitez pas à revenir. Bonne continuation !
+                </p>
+              </motion.div>
+            ) : (
             <AnimatePresence mode="wait">
               {isChoiceStep ? (
                 <motion.div
@@ -350,6 +383,7 @@ export default function QualifierForm() {
                 </motion.form>
               )}
             </AnimatePresence>
+            )}
           </div>
         </motion.div>
       </div>

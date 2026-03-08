@@ -16,18 +16,18 @@ function useStaticBars(count: number) {
 
 /* ── Waveform Bar ── */
 function WaveformBar({
-  isPlaying,
+  isActive,
   baseHeight,
   delay,
 }: {
-  isPlaying: boolean;
+  isActive: boolean;
   baseHeight: number;
   delay: number;
 }) {
   const [height, setHeight] = useState(baseHeight * 0.35);
 
   useEffect(() => {
-    if (!isPlaying) {
+    if (!isActive) {
       setHeight(baseHeight * 0.35);
       return;
     }
@@ -35,7 +35,7 @@ function WaveformBar({
       setHeight(8 + Math.random() * 40);
     }, 90);
     return () => clearInterval(interval);
-  }, [isPlaying, baseHeight]);
+  }, [isActive, baseHeight]);
 
   return (
     <motion.div
@@ -43,12 +43,12 @@ function WaveformBar({
       style={{ width: "4px" }}
       animate={{
         height,
-        background: isPlaying
+        background: isActive
           ? "linear-gradient(to top, #ea580c, #fb923c)"
           : "rgba(255,255,255,0.1)",
       }}
       transition={{
-        height: { duration: isPlaying ? 0.08 : 0.6, ease: "easeOut" },
+        height: { duration: isActive ? 0.08 : 0.6, ease: "easeOut" },
         background: { duration: 0.3 },
         delay: delay * 0.012,
       }}
@@ -63,25 +63,38 @@ interface AudioCardProps {
   subtitle: string;
   index: number;
   audioSrc?: string;
+  isActive: boolean;
+  onPlay: () => void;
+  onStop: () => void;
 }
 
-function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+function AudioCard({ title, badge, subtitle, index, audioSrc, isActive, onPlay, onStop }: AudioCardProps) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const barCount = 32;
   const barHeights = useStaticBars(barCount);
 
+  // Stop when another card takes over
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (!isActive) {
+      audio.pause();
+      audio.currentTime = 0;
+      setProgress(0);
+    }
+  }, [isActive]);
+
   const togglePlay = useCallback(() => {
     if (!audioRef.current) return;
-    if (isPlaying) {
+    if (isActive) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
     }
-    setIsPlaying(!isPlaying);
-  }, [isPlaying]);
+    onPlay();
+  }, [isActive, onPlay]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -90,7 +103,7 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
       if (audio.duration) setProgress((audio.currentTime / audio.duration) * 100);
     };
     const handleLoaded = () => setDuration(audio.duration);
-    const handleEnded = () => { setIsPlaying(false); setProgress(0); };
+    const handleEnded = () => { setProgress(0); onStop(); };
     audio.addEventListener("timeupdate", updateProgress);
     audio.addEventListener("loadedmetadata", handleLoaded);
     audio.addEventListener("ended", handleEnded);
@@ -99,7 +112,7 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
       audio.removeEventListener("loadedmetadata", handleLoaded);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  }, [onPlay, onStop]);
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
@@ -159,7 +172,7 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
         {barHeights.map((h, i) => (
           <WaveformBar
             key={i}
-            isPlaying={isPlaying}
+            isActive={isActive}
             baseHeight={h}
             delay={i}
           />
@@ -188,7 +201,7 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
         {/* The HERO play button */}
         <div style={{ position: "relative" }}>
           {/* Ping ring */}
-          {!isPlaying && (
+          {!isActive && (
             <div
               className="animate-ping"
               style={{
@@ -206,7 +219,7 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
               position: "absolute",
               inset: "-2px",
               borderRadius: "16px",
-              background: isPlaying
+              background: isActive
                 ? "rgba(16,185,129,0.2)"
                 : "rgba(249,115,22,0.2)",
               filter: "blur(8px)",
@@ -220,13 +233,13 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
               position: "relative",
               width: "64px",
               height: "64px",
-              backgroundColor: isPlaying ? "#10b981" : "#F97316",
-              boxShadow: isPlaying
+              backgroundColor: isActive ? "#10b981" : "#F97316",
+              boxShadow: isActive
                 ? "0 8px 30px -4px rgba(16,185,129,0.5)"
                 : "0 8px 30px -4px rgba(249,115,22,0.5)",
             }}
           >
-            {isPlaying ? (
+            {isActive ? (
               <svg style={{ width: "22px", height: "22px", color: "#ffffff" }} fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
               </svg>
@@ -240,15 +253,12 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
 
         <div className="flex flex-col" style={{ minWidth: 0 }}>
           <span className="text-sm font-bold text-white">
-            {isPlaying ? "En cours..." : "Écouter l'audio"}
-          </span>
-          <span className="text-xs font-mono" style={{ color: "#78716c", marginTop: "2px" }}>
-            {duration > 0 ? formatTime(duration) : "2:34"}
+            {isActive ? "En cours..." : "Écouter l'audio"}
           </span>
         </div>
 
         {/* Live indicator */}
-        {isPlaying && (
+        {isActive && (
           <div className="flex items-center" style={{ marginLeft: "auto", gap: "6px" }}>
             <div
               className="rounded-full animate-pulse"
@@ -264,10 +274,10 @@ function AudioCard({ title, badge, subtitle, index, audioSrc }: AudioCardProps) 
 
 /* ── Data ── */
 const testimonials = [
-  { title: "Bureau Casablanca", badge: "ROI ×5", subtitle: "Résultat après 30 jours" },
-  { title: "Bureau Rabat", badge: "+300%", subtitle: "Croissance x3 en leads qualifiés" },
-  { title: "Bureau Marrakech", badge: "ROI ×5", subtitle: "ROI multiplié par 5" },
-  { title: "Bureau Tanger", badge: "14 jours", subtitle: "Pipeline rempli en 2 semaines" },
+  { title: "Bureau Casablanca", badge: "Client", subtitle: "Témoignage audio", audioSrc: "/audio/CasaBlanca.MP3" },
+  { title: "Bureau Tanger", badge: "Client", subtitle: "Témoignage audio", audioSrc: "/audio/Tanger.MP3" },
+  { title: "Bureau Fès", badge: "Client", subtitle: "Témoignage audio", audioSrc: "/audio/Fes.MP3" },
+  { title: "Bureau Kénitra", badge: "Client", subtitle: "Témoignage audio", audioSrc: "/audio/Kenitra.MP3" },
 ];
 
 /* ── Glassmorphic Arrow ── */
@@ -324,6 +334,7 @@ function CarouselArrow({
 /* ── Main Section ── */
 export default function Evidence() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   const scroll = useCallback((direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -381,6 +392,10 @@ export default function Evidence() {
               badge={t.badge}
               subtitle={t.subtitle}
               index={i}
+              audioSrc={t.audioSrc}
+              isActive={playingIndex === i}
+              onPlay={() => setPlayingIndex(prev => prev === i ? null : i)}
+              onStop={() => setPlayingIndex(null)}
             />
           ))}
         </div>

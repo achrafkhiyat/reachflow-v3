@@ -63,7 +63,7 @@ const pillars = [
     label: "L'Actif",
     tag: "Vidéo",
     description:
-      "Production \"Cinéma-Grade\" qui vous positionne comme l'Autorité n°1 dans votre ville.",
+      "Une production au look impeccable qui vous positionne comme l'Autorité n°1",
   },
   {
     icon: (
