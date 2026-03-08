@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Mechanism from "@/components/Mechanism";
 import Evidence from "@/components/Evidence";
+import Partners from "@/components/Partners";
 import QualifierForm from "@/components/QualifierForm";
 
 export default function Home() {
@@ -26,6 +27,10 @@ export default function Home() {
       <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
 
       <Evidence />
+
+      <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
+
+      <Partners />
 
       <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
 
