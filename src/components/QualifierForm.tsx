@@ -113,7 +113,7 @@ export default function QualifierForm() {
     };
 
     navigator.sendBeacon(
-      "https://script.google.com/macros/s/AKfycbwlxx3I_mRDAsb2KetIdPXHlnUWtRwUVK5Qw1L28QOrGoaCgEgCPBAHihMsdfOU8F-IrQ/exec",
+      "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
       JSON.stringify(payload)
     );
 
