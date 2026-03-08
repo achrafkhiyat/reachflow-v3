@@ -4,13 +4,13 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 
 const logos = [
-  { src: "/logos/Hikma education.png", alt: "Hikma Education" },
-  { src: "/logos/International Pathway Academy.png", alt: "International Pathway Academy" },
-  { src: "/logos/TAWJIH BA3D LBAC.png", alt: "Tawjih Ba3d Lbac" },
-  { src: "/logos/anajah academy.png", alt: "Anajah Academy" },
-  { src: "/logos/go international education.png", alt: "Go International Education" },
-  { src: "/logos/iSTANBUL FOUNDATION.png", alt: "Istanbul Foundation" },
-  { src: "/logos/studyadvisor residency.png", alt: "Studyadvisor Residency" },
+  { src: "/logos/Hikma%20education.png", alt: "Hikma Education" },
+  { src: "/logos/International%20Pathway%20Academy.png", alt: "International Pathway Academy" },
+  { src: "/logos/TAWJIH%20BA3D%20LBAC.png", alt: "Tawjih Ba3d Lbac" },
+  { src: "/logos/anajah%20academy.png", alt: "Anajah Academy" },
+  { src: "/logos/go%20international%20education.png", alt: "Go International Education" },
+  { src: "/logos/iSTANBUL%20FOUNDATION.png", alt: "Istanbul Foundation" },
+  { src: "/logos/studyadvisor%20residency.png", alt: "Studyadvisor Residency" },
   { src: "/logos/studyadvisor.png", alt: "Studyadvisor" },
   { src: "/logos/wonderlearn.png", alt: "Wonderlearn" },
 ];
