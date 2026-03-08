@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 
 const logos = [
   { src: "/logos/Hikma%20education.png", alt: "Hikma Education", scale: 1 },
-  { src: "/logos/International%20Pathway%20Academy.png", alt: "International Pathway Academy", scale: 1.5 },
+  { src: "/logos/International%20Pathway%20Academy.png", alt: "International Pathway Academy", scale: 1.6 },
   { src: "/logos/TAWJIH%20BA3D%20LBAC.png", alt: "Tawjih Ba3d Lbac", scale: 1 },
   { src: "/logos/anajah%20academy.png", alt: "Anajah Academy", scale: 1 },
-  { src: "/logos/go%20international%20education.png", alt: "Go International Education", scale: 1 },
-  { src: "/logos/iSTANBUL%20FOUNDATION.png", alt: "Istanbul Foundation", scale: 1.5 },
+  { src: "/logos/go%20international%20education.png", alt: "Go International Education", scale: 1.5 },
+  { src: "/logos/iSTANBUL%20FOUNDATION.png", alt: "Istanbul Foundation", scale: 1.6 },
   { src: "/logos/studyadvisor%20residency.png", alt: "Studyadvisor Residency", scale: 1 },
   { src: "/logos/studyadvisor.png", alt: "Studyadvisor", scale: 1 },
-  { src: "/logos/wonderlearn.png", alt: "Wonderlearn", scale: 2 },
+  { src: "/logos/wonderlearn.png", alt: "Wonderlearn", scale: 1.8 },
 ];
 
 const doubled = [...logos, ...logos];
