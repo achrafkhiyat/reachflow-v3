@@ -97,7 +97,7 @@ export default function QualifierForm() {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -112,10 +112,19 @@ export default function QualifierForm() {
       consultation: selections[4] || "",
     };
 
-    navigator.sendBeacon(
-      "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
-      JSON.stringify(payload)
-    );
+    try {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+    } catch (err) {
+      console.error("Sheet error:", err);
+    }
 
     router.push("/booking");
   };
