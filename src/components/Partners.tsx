@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import { motion } from "framer-motion";
 
 const logos = [
@@ -80,9 +79,9 @@ export default function Partners() {
               key={i}
               className="flex-shrink-0 flex items-center justify-center rounded-2xl"
               style={{
-                width: "160px",
-                height: "80px",
-                padding: "16px 20px",
+                width: "220px",
+                height: "110px",
+                padding: "20px 24px",
                 background: "linear-gradient(to bottom, #1F1D1B, #0C0A09)",
                 border: "1px solid rgba(255,255,255,0.07)",
                 boxShadow: "0 4px 20px -8px rgba(0,0,0,0.8)",
