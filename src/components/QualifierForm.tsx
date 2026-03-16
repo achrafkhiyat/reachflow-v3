@@ -112,6 +112,7 @@ export default function QualifierForm() {
       consultation: selections[4] || "",
     };
 
+    // Send to Google Sheets
     try {
       await fetch(
         "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
@@ -125,6 +126,42 @@ export default function QualifierForm() {
     } catch (err) {
       console.error("Sheet error:", err);
     }
+
+    // Send to ReachFlow CRM
+    try {
+      const crmUrl = process.env.NEXT_PUBLIC_CRM_WEBHOOK_URL;
+      const crmSecret = process.env.NEXT_PUBLIC_CRM_WEBHOOK_SECRET;
+      if (crmUrl) {
+        await fetch(crmUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(crmSecret ? { Authorization: `Bearer ${crmSecret}` } : {}),
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            company: formData.bureau,
+            source: "meta",
+            has_booked_call: false,
+            notes: [
+              `Inscriptions: ${selections[0] || ""}`,
+              `Objectif: ${selections[1] || ""}`,
+              `Satisfaction: ${selections[2] || ""}`,
+              `Cible: ${selections[3] || ""}`,
+              `Consultation: ${selections[4] || ""}`,
+            ].join(" | "),
+          }),
+        });
+      }
+    } catch (err) {
+      console.error("CRM webhook error:", err);
+    }
+
+    // Store phone for booking confirmation
+    try {
+      sessionStorage.setItem("rf_lead_phone", formData.phone);
+    } catch {}
 
     router.push("/booking");
   };

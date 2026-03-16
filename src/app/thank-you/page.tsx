@@ -15,6 +15,21 @@ export default function ThankYou() {
     if (window.fbq) {
       window.fbq("track", "Lead");
     }
+
+    // Notify CRM that this lead has booked a call
+    try {
+      const phone = sessionStorage.getItem("rf_lead_phone");
+      const crmUrl = process.env.NEXT_PUBLIC_CRM_WEBHOOK_URL;
+      if (phone && crmUrl) {
+        const bookedUrl = crmUrl.replace("/webhook", "/booked");
+        fetch(bookedUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone }),
+        }).catch(() => {});
+        sessionStorage.removeItem("rf_lead_phone");
+      }
+    } catch {}
   }, []);
 
   return (
