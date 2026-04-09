@@ -16,19 +16,8 @@ export default function ThankYou() {
       window.fbq("track", "Lead");
     }
 
-    // Notify CRM that this lead has booked a call
     try {
-      const phone = sessionStorage.getItem("rf_lead_phone");
-      const crmUrl = process.env.NEXT_PUBLIC_CRM_WEBHOOK_URL;
-      if (phone && crmUrl) {
-        const bookedUrl = crmUrl.replace("/webhook", "/booked");
-        fetch(bookedUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone }),
-        }).catch(() => {});
-        sessionStorage.removeItem("rf_lead_phone");
-      }
+      sessionStorage.removeItem("rf_lead_phone");
     } catch {}
   }, []);
 
@@ -103,8 +92,8 @@ export default function ThankYou() {
           className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white"
           style={{ marginBottom: "16px", lineHeight: 1.2 }}
         >
-          Appel{" "}
-          <span className="shimmer-text">Confirmé</span>
+          Candidature{" "}
+          <span className="shimmer-text">Reçue !</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -115,9 +104,9 @@ export default function ThankYou() {
           className="text-sm md:text-lg font-medium leading-relaxed max-w-md mx-auto"
           style={{ color: "#a8a29e", marginBottom: "40px" }}
         >
-          Votre appel stratégique est réservé.
+          Merci pour votre confiance.
           <br />
-          Vérifiez votre email pour les <span style={{ color: "#10b981", fontWeight: 700 }}>détails de confirmation</span>.
+          Notre équipe va <span style={{ color: "#10b981", fontWeight: 700 }}>vous contacter sous 24h</span> pour planifier votre appel diagnostic.
         </motion.p>
 
         {/* CTA back to home */}
