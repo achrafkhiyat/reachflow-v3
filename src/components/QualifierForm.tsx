@@ -156,11 +156,11 @@ export default function QualifierForm() {
     // Send to Google Sheets
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
+        "https://script.google.com/macros/s/AKfycbxN4P_sVQ7B-Cs04Xfd56vjX4IfeYeXyViInTxCwcG6omdXs2QMTtLw2KMRQbf7HvtW3g/exec",
         {
           method: "POST",
           mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain" },
           body: JSON.stringify(payload),
         }
       );
