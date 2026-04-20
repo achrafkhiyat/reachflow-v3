@@ -275,9 +275,6 @@ export default function QualifierForm() {
                   exit={{ opacity: 0, x: -30 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
-                    Étape {currentStep + 1} sur {totalSteps}
-                  </p>
 
                   <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
                     {choiceSteps[currentStep].headline}
@@ -371,9 +368,6 @@ export default function QualifierForm() {
                     }
                   }}
                 >
-                  <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
-                    Étape {currentStep + 1} sur {totalSteps}
-                  </p>
 
                   <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
                     {inputSteps[inputIndex].headline}
