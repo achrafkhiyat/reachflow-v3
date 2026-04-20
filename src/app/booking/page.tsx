@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Booking() {
   const router = useRouter();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
@@ -13,7 +14,6 @@ export default function Booking() {
         router.push("/thank-you");
       }
     };
-
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, [router]);
@@ -91,14 +91,61 @@ export default function Booking() {
           de 30 minutes — 100% gratuit et sans engagement.
         </motion.p>
 
-        {/* Calendly Embed — direct iframe, no widget.js needed */}
+        {/* Calendly Embed */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.45 }}
-          className="w-full"
+          className="w-full relative"
           style={{ maxWidth: "700px" }}
         >
+          {/* Loader — visible until iframe fires onLoad */}
+          <AnimatePresence>
+            {!loaded && (
+              <motion.div
+                key="loader"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl"
+                style={{
+                  minHeight: "300px",
+                  background: "linear-gradient(to bottom, #1F1D1B, #0C0A09)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  zIndex: 10,
+                }}
+              >
+                {/* Spinner */}
+                <div style={{ position: "relative", width: "56px", height: "56px", marginBottom: "20px" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "50%",
+                      border: "3px solid rgba(249,115,22,0.15)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "50%",
+                      border: "3px solid transparent",
+                      borderTopColor: "#F97316",
+                      animation: "spin 0.9s linear infinite",
+                    }}
+                  />
+                </div>
+                <p className="text-sm font-semibold text-white" style={{ marginBottom: "6px" }}>
+                  Chargement de votre calendrier...
+                </p>
+                <p className="text-xs" style={{ color: "#78716c" }}>
+                  Cela prend quelques secondes
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <iframe
             src="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316&redirect_url=https%3A%2F%2Freachflow.ma%2Fthank-you"
             width="100%"
@@ -106,7 +153,13 @@ export default function Booking() {
             frameBorder="0"
             title="Réserver un appel"
             loading="eager"
-            style={{ border: "none", borderRadius: "16px" }}
+            onLoad={() => setLoaded(true)}
+            style={{
+              border: "none",
+              borderRadius: "16px",
+              opacity: loaded ? 1 : 0,
+              transition: "opacity 0.4s ease",
+            }}
           />
         </motion.div>
       </div>
