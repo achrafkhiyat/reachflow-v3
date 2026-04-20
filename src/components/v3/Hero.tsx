@@ -117,7 +117,7 @@ export default function Hero() {
       >
         <h1
           className="font-extrabold text-white"
-          style={{ fontSize: "clamp(1.5rem, 5.5vw, 3rem)", lineHeight: 1.15 }}
+          style={{ fontSize: "clamp(1.5rem, 5.5vw, 3rem)", lineHeight: 1.2 }}
         >
           Votre bureau reçoit des leads.{" "}
           <span
@@ -131,6 +131,12 @@ export default function Hero() {
             }}
           >
             Mais pas les bons.
+          </span>
+          <span
+            className="block"
+            style={{ fontSize: "clamp(1.1rem, 4vw, 2rem)", fontWeight: 600, color: "#d6d3d1", marginTop: "10px" }}
+          >
+            Recevez uniquement des familles avec budget et projet concret.
           </span>
         </h1>
       </motion.div>
