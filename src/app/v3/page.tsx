@@ -1,7 +1,4 @@
 import Hero from "@/components/v3/Hero";
-import Mechanism from "@/components/v3/Mechanism";
-import Evidence from "@/components/v3/Evidence";
-import Partners from "@/components/v3/Partners";
 import QualifierForm from "@/components/v3/QualifierForm";
 
 export default function HomeV3() {
@@ -18,19 +15,6 @@ export default function HomeV3() {
       />
 
       <Hero />
-
-      {/* Divider */}
-      <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
-
-      <Mechanism />
-
-      <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
-
-      <Evidence />
-
-      <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
-
-      <Partners />
 
       <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
 

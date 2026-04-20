@@ -22,11 +22,16 @@ export default function RootLayout({
             __html: `window.history.scrollRestoration = "manual"; window.scrollTo(0, 0);`,
           }}
         />
+        {/* Preload LCP asset */}
+        <link rel="preload" href="/logo.webp" as="image" type="image/webp" />
         {/* Preconnect to Calendly so the booking page loads instantly */}
         <link rel="preconnect" href="https://calendly.com" />
         <link rel="preconnect" href="https://assets.calendly.com" />
         <link rel="dns-prefetch" href="https://calendly.com" />
         <link rel="dns-prefetch" href="https://assets.calendly.com" />
+        {/* Preconnect YouTube for video */}
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
       </head>
       <body>
         {/* Google Tag Manager */}

@@ -42,7 +42,7 @@ export default function ThankYou() {
           style={{ marginBottom: "48px" }}
         >
           <img
-            src="/logo.png"
+            src="/logo.webp"
             alt="Reachflow"
             className="h-14 md:h-20 w-auto"
           />

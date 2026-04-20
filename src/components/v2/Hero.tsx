@@ -75,7 +75,7 @@ export default function Hero() {
         style={{ marginBottom: "40px" }}
       >
         <img
-          src="/logo.png"
+          src="/logo.webp"
           alt="Reachflow"
           className="h-14 md:h-20 w-auto"
         />
@@ -182,7 +182,7 @@ export default function Hero() {
                 className="absolute inset-0 w-full h-full"
               >
                 <img
-                  src="/thumbnail.jpg"
+                  src="/thumbnail.webp"
                   alt="VSL thumbnail"
                   className="absolute inset-0 w-full h-full object-cover"
                 />

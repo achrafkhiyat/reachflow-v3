@@ -40,7 +40,7 @@ export default function Booking() {
           style={{ marginBottom: "32px" }}
         >
           <img
-            src="/logo.png"
+            src="/logo.webp"
             alt="Reachflow"
             className="h-14 md:h-20 w-auto"
           />
