@@ -276,7 +276,7 @@ export default function QualifierForm() {
                   transition={{ duration: 0.3 }}
                 >
                   <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
-                    Étape {currentStep + 1} sur {totalSteps}
+                    Étape {currentStep + 1}
                   </p>
 
                   <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
@@ -372,7 +372,7 @@ export default function QualifierForm() {
                   }}
                 >
                   <p className="text-xs text-stone-500 uppercase tracking-widest font-semibold mb-4">
-                    Étape {currentStep + 1} sur {totalSteps}
+                    Étape {currentStep + 1}
                   </p>
 
                   <h3 className="text-lg md:text-xl font-bold text-white" style={{ marginBottom: "28px" }}>
