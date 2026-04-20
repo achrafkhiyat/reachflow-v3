@@ -68,6 +68,8 @@ export default function Hero() {
             padding: "5px 14px",
             backgroundColor: "rgba(249,115,22,0.08)",
             border: "1px solid rgba(249,115,22,0.2)",
+            cursor: "default",
+            userSelect: "none",
           }}
         >
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#F97316" }} />
@@ -136,6 +138,8 @@ export default function Hero() {
             borderRight: "1px solid rgba(255,255,255,0.05)",
             borderBottom: "1px solid rgba(255,255,255,0.02)",
             boxShadow: "0 20px 50px -12px rgba(0,0,0,0.8), 0 0 40px -10px rgba(249,115,22,0.06)",
+            cursor: "default",
+            userSelect: "none",
           }}
         >
           {bullets.map((bullet, i) => (
