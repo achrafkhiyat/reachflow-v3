@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import Script from "next/script";
 
 export default function Booking() {
   const router = useRouter();
@@ -92,7 +91,7 @@ export default function Booking() {
           de 30 minutes — 100% gratuit et sans engagement.
         </motion.p>
 
-        {/* Calendly Embed */}
+        {/* Calendly Embed — direct iframe, no widget.js needed */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -100,10 +99,14 @@ export default function Booking() {
           className="w-full"
           style={{ maxWidth: "700px" }}
         >
-          <div
-            className="calendly-inline-widget"
-            data-url="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
-            style={{ minWidth: "320px", width: "100%", height: "900px" }}
+          <iframe
+            src="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316&redirect_url=https%3A%2F%2Freachflow.ma%2Fthank-you"
+            width="100%"
+            height="900"
+            frameBorder="0"
+            title="Réserver un appel"
+            loading="eager"
+            style={{ border: "none", borderRadius: "16px" }}
           />
         </motion.div>
       </div>
@@ -122,11 +125,6 @@ export default function Booking() {
         </p>
       </footer>
 
-      {/* Calendly widget script */}
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-      />
     </main>
   );
 }

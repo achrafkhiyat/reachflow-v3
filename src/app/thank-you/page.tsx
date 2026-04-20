@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 declare global {
   interface Window {
@@ -109,49 +108,6 @@ export default function ThankYou() {
           Vérifiez votre email pour les <span style={{ color: "#10b981", fontWeight: 700 }}>détails de confirmation</span>.
         </motion.p>
 
-        {/* CTA back to home */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.65 }}
-        >
-          <Link
-            href="https://reachflow.ma"
-            style={{
-              padding: "3px",
-              borderRadius: "16px",
-              background:
-                "linear-gradient(90deg, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316, #fbad5e, #f9c97c, #fbad5e, #f97316)",
-              backgroundSize: "300% 100%",
-              animation: "shimmer-border 6s linear infinite",
-              boxShadow: "0 8px 40px -8px rgba(249,115,22,0.6)",
-            }}
-            className="inline-flex items-center justify-center transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span
-              className="inline-flex items-center justify-center gap-3 text-white text-sm md:text-lg font-bold"
-              style={{
-                padding: "16px 32px",
-                borderRadius: "13px",
-                backgroundColor: "#F97316",
-              }}
-            >
-              Découvrir Reachflow
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
-        </motion.div>
       </div>
 
       {/* Footer */}

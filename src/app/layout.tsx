@@ -22,6 +22,11 @@ export default function RootLayout({
             __html: `window.history.scrollRestoration = "manual"; window.scrollTo(0, 0);`,
           }}
         />
+        {/* Preconnect to Calendly so the booking page loads instantly */}
+        <link rel="preconnect" href="https://calendly.com" />
+        <link rel="preconnect" href="https://assets.calendly.com" />
+        <link rel="dns-prefetch" href="https://calendly.com" />
+        <link rel="dns-prefetch" href="https://assets.calendly.com" />
       </head>
       <body>
         {/* Google Tag Manager */}
