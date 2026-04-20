@@ -66,17 +66,17 @@ export default function Hero() {
         <div
           className="inline-flex items-center gap-2 rounded-full"
           style={{
-            padding: "5px 16px",
-            backgroundColor: "rgba(16,185,129,0.08)",
-            border: "1px solid rgba(16,185,129,0.25)",
+            padding: "7px 18px",
+            backgroundColor: "rgba(16,185,129,0.15)",
+            border: "1px solid rgba(16,185,129,0.5)",
             cursor: "default",
             userSelect: "none",
           }}
         >
-          <svg width="12" height="12" fill="none" stroke="#10b981" strokeWidth="2.5" viewBox="0 0 24 24">
+          <svg width="13" height="13" fill="none" stroke="#34d399" strokeWidth="2.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
           </svg>
-          <span className="text-xs font-bold" style={{ color: "#10b981", letterSpacing: "0.05em" }}>
+          <span className="text-xs font-bold" style={{ color: "#34d399", letterSpacing: "0.04em" }}>
             +100 000 MAD/mois générés pour nos bureaux partenaires
           </span>
         </div>
