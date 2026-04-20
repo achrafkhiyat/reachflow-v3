@@ -35,7 +35,7 @@ export default function HomeV3() {
             fontSize: "10px",
             fontWeight: 600,
             letterSpacing: "0.2em",
-            color: "#57534e",
+            color: "#a8a29e",
             textTransform: "uppercase",
             marginBottom: "20px",
           }}

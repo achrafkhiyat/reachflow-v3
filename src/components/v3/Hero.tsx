@@ -228,7 +228,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.5 }}
         className="relative z-10 text-center"
-        style={{ color: "#57534e", fontSize: "11px", marginTop: "10px" }}
+        style={{ color: "#a8a29e", fontSize: "11px", marginTop: "10px" }}
       >
         Appel diagnostic gratuit · 30 minutes · Sans engagement
       </motion.p>
@@ -243,7 +243,7 @@ export default function Hero() {
       >
         <p
           className="text-center uppercase font-semibold"
-          style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#57534e", marginBottom: "16px" }}
+          style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#a8a29e", marginBottom: "16px" }}
         >
           Ils nous font confiance
         </p>
