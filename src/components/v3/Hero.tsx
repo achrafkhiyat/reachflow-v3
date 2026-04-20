@@ -55,6 +55,33 @@ export default function Hero() {
         />
       </motion.div>
 
+      {/* Stat badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.08 }}
+        className="relative z-10"
+        style={{ marginBottom: "14px" }}
+      >
+        <div
+          className="inline-flex items-center gap-2 rounded-full"
+          style={{
+            padding: "5px 16px",
+            backgroundColor: "rgba(16,185,129,0.08)",
+            border: "1px solid rgba(16,185,129,0.25)",
+            cursor: "default",
+            userSelect: "none",
+          }}
+        >
+          <svg width="12" height="12" fill="none" stroke="#10b981" strokeWidth="2.5" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+          <span className="text-xs font-bold" style={{ color: "#10b981", letterSpacing: "0.05em" }}>
+            +100 000 MAD/mois générés pour nos bureaux partenaires
+          </span>
+        </div>
+      </motion.div>
+
       {/* Badge */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
