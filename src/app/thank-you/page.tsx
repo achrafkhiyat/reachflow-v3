@@ -92,8 +92,8 @@ export default function ThankYou() {
           className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white"
           style={{ marginBottom: "16px", lineHeight: 1.2 }}
         >
-          Candidature{" "}
-          <span className="shimmer-text">Reçue !</span>
+          Appel{" "}
+          <span className="shimmer-text">Confirmé !</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -104,9 +104,9 @@ export default function ThankYou() {
           className="text-sm md:text-lg font-medium leading-relaxed max-w-md mx-auto"
           style={{ color: "#a8a29e", marginBottom: "40px" }}
         >
-          Merci pour votre confiance.
+          Votre appel stratégique est réservé.
           <br />
-          Notre équipe va <span style={{ color: "#10b981", fontWeight: 700 }}>vous contacter sous 24h</span> pour planifier votre appel diagnostic.
+          Vérifiez votre email pour les <span style={{ color: "#10b981", fontWeight: 700 }}>détails de confirmation</span>.
         </motion.p>
 
         {/* CTA back to home */}
