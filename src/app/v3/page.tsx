@@ -32,10 +32,10 @@ export default function HomeV3() {
         <p
           style={{
             textAlign: "center",
-            fontSize: "10px",
+            fontSize: "12px",
             fontWeight: 600,
-            letterSpacing: "0.2em",
-            color: "#a8a29e",
+            letterSpacing: "0.15em",
+            color: "#d6d3d1",
             textTransform: "uppercase",
             marginBottom: "20px",
           }}
