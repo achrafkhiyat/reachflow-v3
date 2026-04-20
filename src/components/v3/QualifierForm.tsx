@@ -72,6 +72,9 @@ export default function QualifierForm() {
   const inputIndex = currentStep - choiceSteps.length;
   const isLastStep = currentStep === totalSteps - 1;
 
+  // Preload Calendly iframe in background once user reaches step 4
+  const showCalendlyPreload = currentStep >= 3;
+
   const handleNext = () => {
     if (isChoiceStep) {
       if (!selected) return;
@@ -177,18 +180,15 @@ export default function QualifierForm() {
 
   return (
     <>
-    {/* Hidden Calendly preload — starts loading at step 3 so it's ready on /booking */}
+    {/* Hidden Calendly preload iframe — fires at step 4 so /booking loads instantly */}
     {showCalendlyPreload && (
-      <div
+      <iframe
         aria-hidden="true"
-        style={{ position: "fixed", width: "1px", height: "1px", overflow: "hidden", opacity: 0, pointerEvents: "none", zIndex: -1 }}
-      >
-        <div
-          className="calendly-inline-widget"
-          data-url="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
-          style={{ minWidth: "320px", width: "320px", height: "600px" }}
-        />
-      </div>
+        src="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
+        style={{ position: "fixed", width: "1px", height: "1px", opacity: 0, pointerEvents: "none", zIndex: -1, border: "none" }}
+        tabIndex={-1}
+        title=""
+      />
     )}
     <section id="candidature" className="relative" style={{ paddingLeft: "32px", paddingRight: "32px", paddingTop: "55px", paddingBottom: "55px" }}>
       <div style={{ maxWidth: "672px", marginLeft: "auto", marginRight: "auto" }}>
