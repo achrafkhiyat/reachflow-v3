@@ -176,8 +176,6 @@ export default function QualifierForm() {
     return formData[step.key].trim().length > 0;
   };
 
-  const showCalendlyPreload = currentStep >= 2;
-
   return (
     <>
     {/* Hidden Calendly preload iframe — fires at step 4 so /booking loads instantly */}
