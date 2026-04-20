@@ -51,6 +51,7 @@ export default function Hero() {
           height="70"
           className="h-12 md:h-16 w-auto"
           fetchPriority="high"
+          style={{ cursor: "default", pointerEvents: "none" }}
         />
       </motion.div>
 
