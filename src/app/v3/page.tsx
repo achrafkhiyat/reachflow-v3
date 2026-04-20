@@ -1,6 +1,5 @@
 import Hero from "@/components/v3/Hero";
 import QualifierForm from "@/components/v3/QualifierForm";
-import StickyCta from "@/components/v3/StickyCta";
 
 export default function HomeV3() {
   return (
@@ -20,8 +19,6 @@ export default function HomeV3() {
       <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
 
       <QualifierForm />
-
-      <StickyCta />
 
       {/* Footer */}
       <footer style={{ padding: "32px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.04)" }}>

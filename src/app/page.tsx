@@ -3,6 +3,7 @@ import Mechanism from "@/components/Mechanism";
 import Evidence from "@/components/Evidence";
 import Partners from "@/components/Partners";
 import QualifierForm from "@/components/QualifierForm";
+import StickyCta from "@/components/StickyCta";
 
 export default function Home() {
   return (
@@ -35,6 +36,8 @@ export default function Home() {
       <div style={{ width: "100%", maxWidth: "448px", marginLeft: "auto", marginRight: "auto", height: "1px", background: "linear-gradient(to right, transparent, rgba(249,115,22,0.2), transparent)" }} />
 
       <QualifierForm />
+
+      <StickyCta />
 
       {/* Footer */}
       <footer style={{ padding: "32px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
