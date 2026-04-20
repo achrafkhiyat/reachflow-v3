@@ -169,7 +169,7 @@ export default function Mechanism() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="rounded-2xl flex flex-col items-center text-center group transition-all duration-500"
+              className="rounded-2xl flex flex-col items-center text-center"
               style={{
                 padding: "32px 24px",
                 background: "linear-gradient(to bottom, #1F1D1B, #0C0A09)",
@@ -178,14 +178,12 @@ export default function Mechanism() {
                 borderRight: "1px solid rgba(255,255,255,0.05)",
                 borderBottom: "1px solid rgba(255,255,255,0.02)",
                 boxShadow: "0 20px 50px -12px rgba(0,0,0,1), 0 0 40px -10px rgba(249,115,22,0.1)",
+                cursor: "default",
+                userSelect: "none",
               }}
             >
               {/* Icon with glow */}
               <div className="relative" style={{ marginBottom: "24px" }}>
-                <div
-                  className="absolute inset-0 rounded-xl blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ backgroundColor: "rgba(249,115,22,0.1)" }}
-                />
                 <div
                   className="relative w-14 h-14 rounded-xl flex items-center justify-center"
                   style={{
@@ -210,6 +208,8 @@ export default function Mechanism() {
                     backgroundColor: "rgba(249,115,22,0.1)",
                     color: "#F97316",
                     border: "1px solid rgba(249,115,22,0.2)",
+                    cursor: "default",
+                    userSelect: "none",
                   }}
                 >
                   {pillar.tag}
