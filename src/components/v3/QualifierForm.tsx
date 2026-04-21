@@ -112,17 +112,13 @@ export default function QualifierForm() {
       selections: selections,
     };
 
-    // Send to Google Sheets
+    // Send to Google Sheets via server-side proxy
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbwDl7PMkKxEtz5vJUUty5NwVBi70l3FQcMrrBT9fcMRzEyOhpETRxOHeXdQ8j4uWUwbVg/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify(payload),
-        }
-      );
+      await fetch("/api/submit-v3", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
     } catch (err) {
       console.error("Sheet error:", err);
     }
