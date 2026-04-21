@@ -106,20 +106,16 @@ export default function QualifierForm() {
     setIsSubmitting(true);
 
     const payload = {
-      nomComplet: formData.name,
-      nomBureau: formData.bureau,
-      telephone: formData.phone,
-      inscriptions: selections[0] || "",
-      objectif: selections[1] || "",
-      satisfaction: selections[2] || "",
-      cibleProspects: selections[3] || "",
-      consultation: selections[4] || "",
+      name: formData.name,
+      bureau: formData.bureau,
+      phone: formData.phone,
+      selections: selections,
     };
 
     // Send to Google Sheets
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwPXQnSTS_fZDdfZls7wqLXYQg3KUFfwrkuvTc3Z_E7piPeDtagRnjzvIUZ_EJavtGQ/exec",
+        "https://script.google.com/macros/s/AKfycbwDl7PMkKxEtz5vJUUty5NwVBi70l3FQcMrrBT9fcMRzEyOhpETRxOHeXdQ8j4uWUwbVg/exec",
         {
           method: "POST",
           mode: "no-cors",
