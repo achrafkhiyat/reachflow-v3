@@ -147,7 +147,7 @@ export default function Booking() {
           </AnimatePresence>
 
           <iframe
-            src="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316&redirect_url=https%3A%2F%2Freachflow.ma%2Fthank-you"
+            src="https://calendly.com/reachflow-ma/30min?embed_type=Inline&hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
             width="100%"
             height="900"
             frameBorder="0"
