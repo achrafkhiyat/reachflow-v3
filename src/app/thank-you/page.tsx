@@ -6,11 +6,18 @@ import { motion } from "framer-motion";
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    dataLayer?: object[];
   }
 }
 
 export default function ThankYou() {
   useEffect(() => {
+    // Push virtual pageview + Lead event so GTM triggers fire on SPA navigation
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "virtual_pageview", page_path: "/thank-you" });
+    window.dataLayer.push({ event: "lead_confirmed" });
+
+    // Also fire fbq directly in case GTM is slow
     if (window.fbq) {
       window.fbq("track", "Lead");
     }
