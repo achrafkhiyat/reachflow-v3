@@ -22,6 +22,12 @@ export default function Booking() {
     return () => window.removeEventListener("message", handleMessage);
   }, [router]);
 
+  // Show spinner, hide after 2.5s (widget.js doesn't fire a load event)
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <main className="relative min-h-screen bg-void overflow-x-hidden flex flex-col">
       {/* Grid Texture Overlay */}
@@ -103,7 +109,7 @@ export default function Booking() {
           className="w-full relative"
           style={{ maxWidth: "700px" }}
         >
-          {/* Loader — visible until iframe fires onLoad */}
+          {/* Spinner — visible for first 2.5s while widget.js initializes */}
           <AnimatePresence>
             {!loaded && (
               <motion.div
@@ -119,26 +125,9 @@ export default function Booking() {
                   zIndex: 10,
                 }}
               >
-                {/* Spinner */}
                 <div style={{ position: "relative", width: "56px", height: "56px", marginBottom: "20px" }}>
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "50%",
-                      border: "3px solid rgba(249,115,22,0.15)",
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "50%",
-                      border: "3px solid transparent",
-                      borderTopColor: "#F97316",
-                      animation: "spin 0.9s linear infinite",
-                    }}
-                  />
+                  <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "3px solid rgba(249,115,22,0.15)" }} />
+                  <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "3px solid transparent", borderTopColor: "#F97316", animation: "spin 0.9s linear infinite" }} />
                 </div>
                 <p className="text-sm font-semibold text-white" style={{ marginBottom: "6px" }}>
                   Chargement de votre calendrier...
@@ -150,19 +139,15 @@ export default function Booking() {
             )}
           </AnimatePresence>
 
-          <iframe
-            src="https://calendly.com/reachflow-ma/30min?embed_type=Inline&hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
-            width="100%"
-            height="900"
-            frameBorder="0"
-            title="Réserver un appel"
-            loading="eager"
-            onLoad={() => setLoaded(true)}
+          {/* Official Calendly inline widget — widget.js initializes this div */}
+          <div
+            className="calendly-inline-widget"
+            data-url="https://calendly.com/reachflow-ma/30min?hide_gdpr_banner=1&background_color=0c0a09&text_color=fafaf9&primary_color=f97316"
             style={{
-              border: "none",
+              minWidth: "320px",
+              height: "900px",
               borderRadius: "16px",
-              opacity: loaded ? 1 : 0,
-              transition: "opacity 0.4s ease",
+              overflow: "hidden",
             }}
           />
         </motion.div>
