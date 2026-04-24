@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Script from "next/script";
 
 export default function Booking() {
   const router = useRouter();
@@ -10,9 +11,12 @@ export default function Booking() {
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
-      if (e.data?.event === "calendly.event_scheduled") {
-        router.push("/thank-you");
-      }
+      try {
+        const data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+        if (data?.event === "calendly.event_scheduled") {
+          router.push("/thank-you");
+        }
+      } catch {}
     };
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
@@ -178,6 +182,7 @@ export default function Booking() {
         </p>
       </footer>
 
+      <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
     </main>
   );
 }
